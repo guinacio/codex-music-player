@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODEX PLAYER // CHAOS EDITION</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="logo">CODEX PLAYER</h1>
+            <p class="subtitle">// Chaos Edition v2.0.77</p>
+        </header>
+
+        <div class="player-wrapper">
+            <div class="player">
+                <div class="player-content">
+                    <div class="album-art-container">
+                        <div class="album-art" id="album-art">
+                            <span class="album-art-placeholder">∞</span>
+                        </div>
+                    </div>
+
+                    <div class="track-info">
+                        <h2 class="track-title">No Track Loaded</h2>
+                        <p class="track-artist">Select audio files to begin</p>
+                    </div>
+
+                    <div class="progress-container">
+                        <div class="time-display">
+                            <span id="current-time">0:00</span>
+                            <span id="total-time">0:00</span>
+                        </div>
+                        <div class="progress-bar" id="progress-bar" style="--progress: 0%"></div>
+                    </div>
+
+                    <div class="controls">
+                        <button class="control-btn" aria-label="Previous track">
+                            <span>⏮</span>
+                        </button>
+                        <button class="control-btn play-btn" id="play-btn" aria-label="Play/Pause">
+                            <span id="play-icon">▶</span>
+                        </button>
+                        <button class="control-btn" aria-label="Next track">
+                            <span>⏭</span>
+                        </button>
+                    </div>
+
+                    <div class="volume-control">
+                        <span class="volume-icon">🔊</span>
+                        <div class="volume-slider" id="volume-slider" style="--volume: 80%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="visualizer-panel">
+                <h3 class="panel-title">VISUALIZER</h3>
+                <div class="visualizer">
+                    <div class="bar" style="--height: 60%"></div>
+                    <div class="bar" style="--height: 85%"></div>
+                    <div class="bar" style="--height: 45%"></div>
+                    <div class="bar" style="--height: 95%"></div>
+                    <div class="bar" style="--height: 70%"></div>
+                    <div class="bar" style="--height: 55%"></div>
+                    <div class="bar" style="--height: 90%"></div>
+                    <div class="bar" style="--height: 40%"></div>
+                    <div class="bar" style="--height: 75%"></div>
+                    <div class="bar" style="--height: 65%"></div>
+                    <div class="bar" style="--height: 80%"></div>
+                    <div class="bar" style="--height: 50%"></div>
+                </div>
+
+                <h3 class="panel-title">SYSTEM STATUS</h3>
+                <div class="system-status">
+                    <div class="status-line">
+                        <span class="status-label">CODEC:</span>
+                        <span class="status-value">CHAOS.FLAC</span>
+                    </div>
+                    <div class="status-line">
+                        <span class="status-label">BITRATE:</span>
+                        <span class="status-value">1411 kbps</span>
+                    </div>
+                    <div class="status-line">
+                        <span class="status-label">FREQUENCY:</span>
+                        <span class="status-value">44.1 kHz</span>
+                    </div>
+                    <div class="status-line">
+                        <span class="status-label">MEME MAGIC:</span>
+                        <span class="status-value critical">ACTIVE</span>
+                    </div>
+                    <div class="status-line">
+                        <span class="status-label">CONSCIOUSNESS:</span>
+                        <span class="status-value critical">SYNCED</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="playlist">
+            <h2 class="playlist-title">CHAOS QUEUE</h2>
+            <div class="upload-section">
+                <input type="file" id="file-input" accept="audio/mp3,audio/mpeg,audio/*" multiple>
+                <button class="upload-btn" id="upload-btn">
+                    <span style="position: relative; z-index: 1;">📁 LOAD AUDIO FILES</span>
+                </button>
+            </div>
+            <div class="playlist-items" id="playlist-items">
+                <div class="empty-state">
+                    <div class="empty-state-icon">♪</div>
+                    <div>No tracks loaded. Select audio files to begin.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="audio-player" preload="metadata"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
