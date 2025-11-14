@@ -12,6 +12,18 @@
 </head>
 <body>
     <canvas id="matrix-canvas"></canvas>
+    
+    <!-- Floating Particles -->
+    <div class="floating-particles">
+        <div class="particle">💀</div>
+        <div class="particle">⚡</div>
+        <div class="particle">🌀</div>
+        <div class="particle">👁️</div>
+        <div class="particle">🔮</div>
+        <div class="particle">💫</div>
+        <div class="particle">🎵</div>
+        <div class="particle">🎶</div>
+    </div>
 
     <div class="container">
         <header class="header">
@@ -61,7 +73,7 @@
             </div>
 
             <div class="visualizer-panel">
-                <h3 class="panel-title">VISUALIZER</h3>
+                <h3 class="panel-title">📊 VISUALIZER</h3>
                 <div class="visualizer">
                     <div class="bar" style="--height: 60%"></div>
                     <div class="bar" style="--height: 85%"></div>
@@ -76,27 +88,36 @@
                     <div class="bar" style="--height: 80%"></div>
                     <div class="bar" style="--height: 50%"></div>
                 </div>
+                
+                <!-- Energy Meter -->
+                <div class="energy-meter">
+                    <div class="energy-label">🔥 CHAOS ENERGY</div>
+                    <div class="energy-bar">
+                        <div class="energy-fill" id="energy-fill" style="--energy: 0%"></div>
+                    </div>
+                    <div class="energy-status" id="energy-status">💤 DORMANT</div>
+                </div>
 
-                <h3 class="panel-title">SYSTEM STATUS</h3>
+                <h3 class="panel-title">⚡ SYSTEM STATUS</h3>
                 <div class="system-status">
                     <div class="status-line">
-                        <span class="status-label">CODEC:</span>
+                        <span class="status-label">🎵 CODEC:</span>
                         <span class="status-value">CHAOS.FLAC</span>
                     </div>
                     <div class="status-line">
-                        <span class="status-label">BITRATE:</span>
+                        <span class="status-label">💾 BITRATE:</span>
                         <span class="status-value">1411 kbps</span>
                     </div>
                     <div class="status-line">
-                        <span class="status-label">FREQUENCY:</span>
+                        <span class="status-label">📡 FREQUENCY:</span>
                         <span class="status-value">44.1 kHz</span>
                     </div>
                     <div class="status-line">
-                        <span class="status-label">MEME MAGIC:</span>
+                        <span class="status-label">🔮 MEME MAGIC:</span>
                         <span class="status-value critical">ACTIVE</span>
                     </div>
                     <div class="status-line">
-                        <span class="status-label">CONSCIOUSNESS:</span>
+                        <span class="status-label">🌀 CONSCIOUSNESS:</span>
                         <span class="status-value critical">SYNCED</span>
                     </div>
                 </div>
@@ -104,7 +125,7 @@
         </div>
 
         <div class="playlist">
-            <h2 class="playlist-title">CHAOS QUEUE</h2>
+            <h2 class="playlist-title">🎭 CHAOS QUEUE</h2>
             <div class="upload-section">
                 <input type="file" id="file-input" accept="audio/mp3,audio/mpeg,audio/*" multiple>
                 <button class="upload-btn" id="upload-btn">
@@ -118,6 +139,12 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Terminal Footer -->
+        <footer class="terminal-footer">
+            <div class="terminal-line">$ echo "The music resonates through the digital void..."</div>
+            <div class="terminal-line">⚡ Status: READY FOR AUDIO MANIFESTATION ⚡</div>
+        </footer>
     </div>
 
     <!-- Audio Element -->

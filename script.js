@@ -55,6 +55,54 @@ const uploadBtn = document.getElementById('upload-btn');
 const prevBtn = document.querySelector('.control-btn[aria-label="Previous track"]');
 const nextBtn = document.querySelector('.control-btn[aria-label="Next track"]');
 const albumArtContainer = document.getElementById('album-art');
+const energyFill = document.getElementById('energy-fill');
+const energyStatus = document.getElementById('energy-status');
+
+// Text Glitch Effect - Define early so it's available everywhere
+const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?~`0123456789';
+let trackTitleGlitchInterval = null;
+let trackArtistGlitchInterval = null;
+
+function createGlitchEffect(element, originalText, intensity = 0.1, glitchProbability = 0.1) {
+    const glitchInterval = setInterval(() => {
+        if (Math.random() < glitchProbability) {
+            const glitched = originalText.split('').map(char => 
+                Math.random() < intensity ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char
+            ).join('');
+            element.textContent = glitched;
+            
+            setTimeout(() => {
+                element.textContent = originalText;
+            }, 50 + Math.random() * 100);
+        }
+    }, 200);
+    
+    return glitchInterval;
+}
+
+function startTrackGlitch() {
+    const currentTrack = playlist[currentTrackIndex];
+    if (!currentTrack) return;
+    
+    // Stop existing intervals
+    if (trackTitleGlitchInterval) clearInterval(trackTitleGlitchInterval);
+    if (trackArtistGlitchInterval) clearInterval(trackArtistGlitchInterval);
+    
+    // Create new glitch effects
+    trackTitleGlitchInterval = createGlitchEffect(trackTitle, currentTrack.title, 0.08, 0.04);
+    trackArtistGlitchInterval = createGlitchEffect(trackArtist, currentTrack.artist, 0.06, 0.03);
+}
+
+function stopTrackGlitch() {
+    if (trackTitleGlitchInterval) {
+        clearInterval(trackTitleGlitchInterval);
+        trackTitleGlitchInterval = null;
+    }
+    if (trackArtistGlitchInterval) {
+        clearInterval(trackArtistGlitchInterval);
+        trackArtistGlitchInterval = null;
+    }
+}
 
 // Format time helper
 function formatTime(seconds) {
@@ -172,8 +220,14 @@ function updateTrackDisplay() {
     const track = playlist[currentTrackIndex];
     if (!track) return;
 
+    // Stop previous glitch effects
+    stopTrackGlitch();
+
     trackTitle.textContent = track.title;
     trackArtist.textContent = track.artist;
+
+    // Start glitch effect for new track
+    startTrackGlitch();
 
     // Update album art
     const existingImg = albumArtContainer.querySelector('img');
@@ -286,12 +340,39 @@ volumeSlider.addEventListener('click', (e) => {
 
 // Random visualizer animation
 const bars = document.querySelectorAll('.bar');
+let energyLevel = 0;
+
 setInterval(() => {
     if (!audio.paused && playlist.length > 0) {
         bars.forEach(bar => {
             const height = Math.random() * 80 + 20;
             bar.style.setProperty('--height', height + '%');
         });
+        
+        // Update energy meter
+        const targetEnergy = 60 + Math.random() * 40; // 60-100%
+        energyLevel += (targetEnergy - energyLevel) * 0.1;
+        energyFill.style.setProperty('--energy', energyLevel + '%');
+        
+        // Update energy status
+        if (energyLevel < 30) {
+            energyStatus.textContent = '🌱 INITIALIZING';
+        } else if (energyLevel < 60) {
+            energyStatus.textContent = '⚡ CHARGING';
+        } else if (energyLevel < 85) {
+            energyStatus.textContent = '🔥 ACTIVE';
+        } else {
+            energyStatus.textContent = '💥 MAXIMUM CHAOS';
+        }
+    } else {
+        // Decay energy when not playing
+        energyLevel *= 0.95;
+        if (energyLevel < 1) energyLevel = 0;
+        energyFill.style.setProperty('--energy', energyLevel + '%');
+        
+        if (energyLevel < 5) {
+            energyStatus.textContent = '💤 DORMANT';
+        }
     }
 }, 100);
 
@@ -302,4 +383,42 @@ logo.addEventListener('mouseenter', () => {
 });
 logo.addEventListener('mouseleave', () => {
     logo.style.animation = 'glitch 3s infinite';
+});
+
+// Initialize all text glitch effects
+// Apply glitch effect to main logo
+const logoOriginalText = 'CODEX PLAYER';
+const logoGlitchInterval = createGlitchEffect(logo, logoOriginalText, 0.15, 0.08);
+
+// Apply glitch effect to subtitle
+const subtitle = document.querySelector('.subtitle');
+const subtitleOriginalText = '// Chaos Edition v2.0.77';
+const subtitleGlitchInterval = createGlitchEffect(subtitle, subtitleOriginalText, 0.1, 0.05);
+
+// Store intervals for cleanup
+const glitchIntervals = [logoGlitchInterval, subtitleGlitchInterval];
+
+// Apply glitch to panel titles
+const panelTitles = document.querySelectorAll('.panel-title');
+panelTitles.forEach(panelTitle => {
+    const originalText = panelTitle.textContent;
+    const interval = createGlitchEffect(panelTitle, originalText, 0.08, 0.03);
+    glitchIntervals.push(interval);
+});
+
+// Apply glitch to playlist title
+const playlistTitle = document.querySelector('.playlist-title');
+const playlistOriginalText = playlistTitle.textContent;
+const playlistGlitchInterval = createGlitchEffect(playlistTitle, playlistOriginalText, 0.1, 0.05);
+glitchIntervals.push(playlistGlitchInterval);
+
+// Apply glitch to terminal footer lines
+const terminalLines = document.querySelectorAll('.terminal-line');
+terminalLines.forEach((line, index) => {
+    const originalText = line.textContent;
+    // Vary the intensity and probability for each line
+    const intensity = 0.05 + (index * 0.02);
+    const probability = 0.02 + (index * 0.01);
+    const interval = createGlitchEffect(line, originalText, intensity, probability);
+    glitchIntervals.push(interval);
 });
